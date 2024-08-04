@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Hệ Thống Quản Lý Người Dùng</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <!-- link css dev  -->
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="text-center fw-bold text-danger mb-5">
+        Hệ Thống Quản Lý Người Dùng
+      </h1>
+      <div id="controls">
+        <div class="formInfo">
+          <h2>Form điền thông tin</h2>
+          <form id="addPersonForm" class="mt-4">
+            <select id="type" name="type" required>
+              <option value="">Chọn đối tượng</option>
+              <option value="Student">Sinh viên</option>
+              <option value="Employee">Nhân viên</option>
+              <option value="Customer">Khách hàng</option>
+            </select>
+            <hr />
+            <input
+              autocomplete="off"
+              type="text"
+              id="name"
+              placeholder="<Vui lòng nhập họ tên>"
+              required
+            />
+            <span id="nameError" class="error"></span>
+            <br />
+            <input
+              autocomplete="off"
+              type="text"
+              id="address"
+              placeholder="<Vui lòng nhập địa chỉ>"
+              required
+            />
+            <span id="addressError" class="error"></span>
+            <br />
+            <input
+              autocomplete="off"
+              type="text"
+              id="idNumber"
+              placeholder="<Vui lòng nhập mã số>"
+              required
+            />
+            <span id="idNumberError" class="error"></span>
+            <br />
+            <input
+              autocomplete="off"
+              type="email"
+              id="email"
+              placeholder="<Vui lòng nhập email>"
+              required
+            />
+            <span id="emailError" class="error"></span>
+            <br />
+
+            <!-- input theo đối tượng  -->
+            <div
+              id="studentFields"
+              class="conditionalFields"
+              style="display: none"
+            >
+              <input
+                autocomplete="off"
+                type="number"
+                id="math"
+                placeholder="<Vui lòng nhập điểm Toán>"
+                required
+              />
+              <span id="mathError" class="error"></span>
+              <br />
+              <input
+                autocomplete="off"
+                type="number"
+                id="physics"
+                placeholder="<Vui lòng nhập điểm Lý>"
+                required
+              />
+              <span id="physicsError" class="error"></span>
+              <br />
+              <input
+                autocomplete="off"
+                type="number"
+                id="chemistry"
+                placeholder="<Vui lòng nhập điểm Hóa>"
+                required
+              />
+              <span id="chemistryError" class="error"></span>
+            </div>
+
+            <div
+              id="employeeFields"
+              class="conditionalFields"
+              style="display: none"
+            >
+              <input
+                autocomplete="off"
+                type="number"
+                id="daysWorked"
+                placeholder="<Vui lòng nhập số ngày làm việc>"
+                required
+              />
+              <span id="daysWorkedError" class="error"></span>
+              <br />
+              <input
+                autocomplete="off"
+                type="number"
+                id="dailySalary"
+                placeholder="<Vui lòng nhập lương 1 ngày>"
+                required
+              />
+              <span id="dailySalaryError" class="error"></span>
+            </div>
+
+            <div
+              id="customerFields"
+              class="conditionalFields"
+              style="display: none"
+            >
+              <input
+                autocomplete="off"
+                type="text"
+                id="companyName"
+                placeholder="<Vui lòng nhập tên công ty>"
+                required
+              />
+              <span id="companyNameError" class="error"></span>
+              <br />
+              <input
+                autocomplete="off"
+                type="number"
+                id="invoiceValue"
+                placeholder="<Vui lòng nhập trị giá hóa đơn>"
+                required
+              />
+              <span id="invoiceValueError" class="error"></span>
+              <br />
+              <input
+                autocomplete="off"
+                type="text"
+                id="Evaluate"
+                placeholder="<Vui lòng nhập đánh giá>"
+                required
+              />
+              <span id="evaluateError" class="error"></span>
+            </div>
+            <br />
+            <button type="submit" id="addPersonButton">Thêm đối tượng</button>
+            <button type="button" id="edit">Cập nhật</button>
+          </form>
+        </div>
+
+        <!-- danhh sách  -->
+        <div class="list">
+          <h2>Danh Sách Người Dùng</h2>
+          <div id="loc">
+            <label for="filterType">Lọc theo loại:</label>
+            <select id="filterType">
+              <option value="">Tất cả</option>
+              <option value="Student">Sinh viên</option>
+              <option value="Employee">Nhân viên</option>
+              <option value="Customer">Khách hàng</option>
+            </select>
+            <button id="filterButton">Lọc</button>
+          </div>
+
+          <div id="sapXepTen">
+            <span>Chức năng sắp xếp danh sách theo tên: </span>
+            <button id="sortByName">Sắp Xếp Theo Tên</button>
+          </div>
+
+          <br /><br />
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Tên</th>
+                <th>Địa chỉ</th>
+                <th>Mã</th>
+                <th>Email</th>
+                <th>Loại</th>
+                <th>Thông tin</th>
+                <th>Edit</th>
+              </tr>
+            </thead>
+            <tbody id="peopleList">
+              <!-- ... -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+    <!-- Bootstrap JavaScript Libraries -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+      integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+      crossorigin="anonymous"
+    ></script>
+    <!-- validation  -->
+    <script src="./validation.js"></script>
+    <!-- class  -->
+    <script src="../models/Person.js"></script>
+    <script src="../models/Student.js"></script>
+    <script src="../models/Employee.js"></script>
+    <script src="../models/Customer.js"></script>
+    <!-- js dev -->
+    <script src="./index.js"></script>
+  </body>
+</html>
